@@ -27,14 +27,77 @@ library(lubridate)
 dotenv::load_dot_env()
 
 
-PAM_VERDE_BASELINE_2026 <- read_excel("PAM_VERDE_2026_Baseline.xlsx")
+PAM_VERDE_BASELINE_2026 <- read_excel("PAM_VERDE_BASELINE_ENDLINE_NAMPULA_BEIRA.xlsx")
 
-# table(Pam_Verde_Indicadores$Ciclo)
+
 
 Pegada_Carbono <- read_excel("Pegada_Baseline_2026.xlsx")
 
 
+# ===============================================================
+# NOMES DAS EMPREENDEDORAS A EXCLUIR
+# ===============================================================
 
+nomes_excluir <- c(
+  "AMELIA AFUSSA ANTONIO",
+  "AQUILAY JOAO HOVASE",
+  "DENISE ISILDA MIGUEL TOCOTA",
+  "DULQUIFAL ASSANE SIMBA",
+  "FAIZA FERNANDO HENRIQUES",
+  "FATIMA SALVADOR AMADE",
+  "GLORIA DA CONSTANCIA LOJA",
+  "IVANDRA CHALES",
+  "MADALENA CARIM MERAGE",
+  "MARIAMO DOMINGOS JAIROSSE",
+  "KHADYA AMADE SILIMO",
+  "NATANIELA DILCIA MASSANGAIE",
+  "NGAMO SUMAIL",
+  "MARIAMO HANIFA ABACAR CHALE SALIMO",
+  "SAMIRA COMBO MUHOLE ASSUMANE",
+  "SHEILA RAIMUNDO ANTUNES",
+  "SUZANA JOAQUIM VAQUINA",
+  "MARAVILHA JANUARIO CARIA",
+  "ESTEFANIA SAMUEL BOLACHA",
+  "MINDOCA NARCISO MAHLAULE"
+)
+
+
+# ===============================================================
+# PAM VERDE - BASELINE 2026
+# ===============================================================
+
+PAM_VERDE_BASELINE_2026 <- read_excel(
+  "PAM_VERDE_2026_Baseline.xlsx"
+) %>%
+  mutate(
+    `Nomes Das Empreendedoras` = toupper(
+      stringr::str_squish(
+        trimws(as.character(`Nomes Das Empreendedoras`))
+      )
+    )
+  ) %>%
+  filter(
+    !`Nomes Das Empreendedoras` %in% nomes_excluir
+  )
+
+
+# ===============================================================
+# PEGADA DE CARBONO
+# ===============================================================
+
+Pegada_Carbono <- read_excel(
+  "Pegada_Baseline_2026.xlsx"
+) %>%
+  mutate(
+    `Nomes das participantes` = toupper(
+      stringr::str_squish(
+        trimws(as.character(`Nomes das participantes`))
+      )
+    )
+  ) %>%
+  filter(
+    !`Nomes das participantes` %in% nomes_excluir
+  )
 # Pam_Verde_Indicadores <- Pam_Verde_Indicadores[, -c(95,96,97,98,99)]  
 # 
 # Pam_Verde_Indicadores <- Pam_Verde_Indicadores %>%
@@ -46,37 +109,36 @@ Pegada_Carbono <- read_excel("Pegada_Baseline_2026.xlsx")
 # 
 
 Pam_Verde_Indicadores <- PAM_VERDE_BASELINE_2026 %>%
-   rename(Aceita_Participar = `Confirma que compreendeu a informação acima e aceita participar nesta entrevista?`,  
-          Data_Entrevista = `Data da entrevista`,  
-          Tipo_Avaliacao = `Momento:`,
-          Ciclo = `Ciclo do Programa:`,
-          ID_Participante = `Codigo Da Participante`,
-          Nome_Participante = `Nomes Das Empreendedoras`,
-          Data_Nascimento = `Data De Nascimento`,
-          Estado_Civil = `Estado Civil:`,
-          Cidade = `Cidade De Residência`,
-          Nome_Negocio = `Nome Do Negócio (ou descrição do negócio):`,
-          Sector = `Sector de actividade`,
-          Ano_Negocio = `Ano De Criação Do Negócio:`,
-          Negocio_Formalizado = `O seu negócio está formalizado? (registado oficialmente e com Certificado de Registo Comercial)`,
-          Uso_Servicos_Financeiros = `Utiliza actualmente algum dos seguintes serviços financeiros para o seu negócio?`,
-          Tira_Salario_Para_Si = `Retira regularmente  um salário para si mesma?`,
-          Clientes_Regulares_Negocio = `Quantos clientes regulares tem actualmente no seu negócio?`,
-          Quem_Toma_Decisoes_Negocio = `Quem costuma tomar as principais decisões sobre o seu negócio?`,
-          Negociacao_Pessoas_Com_Quem_Trabalha = `Pessoas com quem trabalha (fornecedores, funcionários, parceiros...)`,
-          Negociacao_Com_Clientes = Clientes,
-          Negociacao_Com_Agregado_Familiar = `Pessoas do agregado familiar / esfera pessoal (sobre uso de dinheiro do negócio, tempo para trabalhar)`,
-          Uso_de_ferramentas_de_IA = `Já utilizou alguma ferramenta de inteligência artificial (ex: ChatGPT, Gemini ou outra) para pesquisar sobre os seus clientes ou obter informações úteis para o negócio?[`,
-          Praticou_negociação_nos_últimos_3meses = `Nos últimos 3 meses, teve alguma situação em que podia negociar preços, prazos ou condições com fornecedor ou cliente para beneficiar o seu negócio?`,
-          Nível_de_conhecimento_ambiental = `Como classificaria o seu nível de conhecimento sobre questões ambientais em geral? (poluição, catástrofes naturais, falta de recursos, impacto de actividades...)`,
-          Onde_vende = `Onde vende actualmente os seus produtos ou serviços?`
-   )
+  rename(Aceita_Participar = `Confirma que compreendeu a informação acima e aceita participar nesta entrevista?`,  
+         Data_Entrevista = `Data da entrevista`,  
+         Tipo_Avaliacao = `Momento:`,
+         Ciclo = `Ciclo do Programa:`,
+         ID_Participante = `Codigo Da Participante`,
+         Nome_Participante = `Nomes Das Empreendedoras`,
+         Data_Nascimento = `Data De Nascimento`,
+         Estado_Civil = `Estado Civil:`,
+         Cidade = `Cidade De Residência`,
+         Nome_Negocio = `Nome Do Negócio (ou descrição do negócio):`,
+         Sector = `Sector de actividade`,
+         Ano_Negocio = `Ano De Criação Do Negócio:`,
+         Negocio_Formalizado = `O seu negócio está formalizado? (registado oficialmente e com Certificado de Registo Comercial)`,
+         Uso_Servicos_Financeiros = `Utiliza actualmente algum dos seguintes serviços financeiros para o seu negócio?`,
+         Tira_Salario_Para_Si = `Retira regularmente  um salário para si mesma?`,
+         Clientes_Regulares_Negocio = `Quantos clientes regulares tem actualmente no seu negócio?`,
+         Quem_Toma_Decisoes_Negocio = `Quem costuma tomar as principais decisões sobre o seu negócio?`,
+         Negociacao_Pessoas_Com_Quem_Trabalha = `Pessoas com quem trabalha (fornecedores, funcionários, parceiros...)`,
+         Negociacao_Com_Clientes = Clientes,
+         Negociacao_Com_Agregado_Familiar = `Pessoas do agregado familiar / esfera pessoal (sobre uso de dinheiro do negócio, tempo para trabalhar)`,
+         Uso_de_ferramentas_de_IA = `Já utilizou alguma ferramenta de inteligência artificial (ex: ChatGPT, Gemini ou outra) para pesquisar sobre os seus clientes ou obter informações úteis para o negócio?[`,
+         Praticou_negociação_nos_últimos_3meses = `Nos últimos 3 meses, teve alguma situação em que podia negociar preços, prazos ou condições com fornecedor ou cliente para beneficiar o seu negócio?`,
+         Nível_de_conhecimento_ambiental = `Como classificaria o seu nível de conhecimento sobre questões ambientais em geral? (poluição, catástrofes naturais, falta de recursos, impacto de actividades...)`,
+         Onde_vende = `Onde vende actualmente os seus produtos ou serviços?`
+  )
 
 Pam_Verde_Indicadores <- Pam_Verde_Indicadores %>%
   filter(Ciclo == "Ciclo 4")
- 
 
-
+table(Pam_Verde_Indicadores$`Até que ponto as actividades ligadas à questão de género ajudaram a compreender as desigualdades entre homens e mulheres?`)
 
 
 ############## PEGADA DE CARBONO
@@ -340,7 +402,7 @@ Pegada_Carbono <- Pegada_Carbono %>%
 
 ############################# MONITORIA
 
-PERFIL_PAM_VERDE_C3_2026 <- read_excel("EMPREENDEDORAS_PAM_VERDE_C3_2026.xlsx")
+PERFIL_PAM_VERDE_C3_2026 <- read_excel("PERFIL_NAMPULA_CICLO_4.xlsx")
 
 PERFIL_PAM_VERDE_C3_2026 <- PERFIL_PAM_VERDE_C3_2026 %>%
   rename(Aceita_Participar = `Confirma que compreendeu a informação acima e aceita participar nesta entrevista?`,  
@@ -369,260 +431,382 @@ PERFIL_PAM_VERDE_C3_2026 <- PERFIL_PAM_VERDE_C3_2026 %>%
 
 
 ################################## PRESENCAS COLECTIVAS 
+# Presencas_Colectivas_Nampula <- read_excel("Presencas_colectivas_Nampula.xlsx")
+# 
+# Webinars_Nampula <- read_excel("Webinars_Nampula.xlsx")
+
+# Feiras_Nampula <- read_excel("Feiras_Nampula.xlsx")
+
+
+# ============================================================
+# 1. LEITURA DAS BASES
+# ============================================================
 
 Presenca <- read_excel("Presencas_colectivas.xlsx")
 
-
-Presencas <- Presenca[, -c(5,6,10,11,13)]
-
-
-
-Presencas <- Presencas %>%
-  rename(
-    Pesquisadores = Control_Facilitador,
-    ID_MUVA = Nome_Empreendedora.ID_Da_Empreendedoras,
-    Nome_Sessao = Nome_da_Sess_o.Tema_Sesao,
-    Tipo_Sessao = Control_Sessao,
-    Cidade = Control_Cidade,
-    Presença = Presen_a,
-    Nome_Participante = Nome_Empreendedora.zc_display_value,
-    Status = Nome_Empreendedora.Status
-  )
-
-Presencas <- Presencas %>%
-  filter(Status == "Activa")
-
-Presencas_colectivas <- Presencas %>%
-  filter(Tipo_Sessao %in% c("Bootcamp 1", "Bootcamp 2", "Bootcamp 3"))
-
-
-# Padronização de nomes das sessões
-Presencas_colectivas <- Presencas_colectivas %>%
-  mutate(Nome_Sessao = case_when(
-    Nome_Sessao == "Sessao1 – Introdução à Abordagem Integrada do Projecto" ~ "Sessao_1",
-    Nome_Sessao == "Sessao2 – Modelo de Negócio" ~ "Sessao_2",
-    Nome_Sessao == "Sessao3 – Cadeia de suprimentos e Registos financeiros" ~ "Sessao_3",
-    Nome_Sessao == "Sessao4 – Poder interno" ~ "Sessao_4",
-    Nome_Sessao == "Sessao5 – Meio Ambiente e Negócios" ~ "Sessao_5",
-    Nome_Sessao == "Sessao6 – Gestão do tempo" ~ "Sessao_6",
-    Nome_Sessao == "Sessao7 – Jornada da Persona e Introdução à HCD" ~ "Sessao_7",
-    Nome_Sessao == "Sessao8 – Uso das Ferramentas do HCD e Inteligência artificial" ~ "Sessao_8",
-    Nome_Sessao == "Sessao9 – Experiência HCD e IA, Ganhos, Riscos e Uso Responsável da IA?" ~ "Sessao_9",
-    Nome_Sessao == "Sessao10 – Revisão de ferramentas e Negociação" ~ "Sessao_10",
-    Nome_Sessao == "Sessao11 – Prototipagem" ~ "Sessao_11",
-    Nome_Sessao == "Sessao12 – Precificação e Fechamento" ~ "Sessao_12",
-    Nome_Sessao == "Sessao13 – Criação 1 de protótipos (parte gráfica de logotipos e flyers) com empreendedoras e facilitadores" ~ "Sessao_13",
-    Nome_Sessao == "Sessao14 – Criação 2 de protótipos (parte gráfica de logotipos e flyers) com empreendedoras e facilitadores" ~ "Sessao_14",
-    Nome_Sessao == "Sessao15 – Criação 3 de protótipos (parte gráfica de logotipos e flyers) com empreendedoras e facilitadores" ~ "Sessao_15",
-    Nome_Sessao == "Sessao16 – Reflexão de como foi o processo de testagem e Aprimoramento do protótipo" ~ "Sessao_16",
-    Nome_Sessao == "Sessao17 – Eu empreendedora, agente de mudança e Revisão das ferramentas de negócios" ~ "Sessao_17",
-    Nome_Sessao == "Sessao18 – Eu mulher, empreendedora moçambicana e Avaliação da Formação" ~ "Sessao_18",
-    TRUE ~ Nome_Sessao
-  ))
-
-
-Presenca_wide <- Presencas_colectivas %>%
-  select(Cidade, ID_MUVA, Nome_Participante, Nome_Sessao, Presença, Pesquisadores) %>%
-  pivot_wider(
-    names_from = Nome_Sessao,
-    values_from = Presença
-  )
-
-# Seleciona as colunas fixas
-colunas_fixas <- c("Cidade", "Pesquisadores", "ID_MUVA", "Nome_Participante")
-
-# Seleciona e ordena as colunas das sessões em ordem crescente
-colunas_sessoes <- sort(names(Presenca_wide)[grepl("^Sessao_", names(Presenca_wide))])
-
-# Reorganiza o data.frame com as colunas na ordem desejada
-Presenca_wide <- Presenca_wide %>%
-  select(all_of(c(colunas_fixas, colunas_sessoes)))
-
-Presencas_Colectivas <- Presenca_wide
-
-
-
-# Reordenar dinamicamente as colunas de sessão
-sessao_cols <- grep("^Sessao_\\d+$", names(Presenca_wide), value = TRUE)
-
-# Ordenar numericamente
-sessao_cols_ordenadas <- sessao_cols[order(as.numeric(gsub("Sessao_", "", sessao_cols)))]
-
-# Reordenar o dataframe mantendo as colunas fixas no início
-Presencas_Colectiva <- Presenca_wide %>%
-  select(
-    Cidade,Pesquisadores, ID_MUVA, Nome_Participante,
-    all_of(sessao_cols_ordenadas)
-  )
-
-
-
-
-
-
-Presencas_Colectivas <- Presencas_Colectiva %>%
-  filter(Cidade == "Nampula")
-
-
-Presencas_Colectivas_Beira <- Presencas_Colectiva %>%
-  filter(Cidade == "Beira")
-
-#################### WEBINAR
-
-Webinars <- Presenca
-
-
-Webinars <- Webinars[, -c(5,6,10,11,13)]
-
-
-
-Webinars <- Webinars %>%
-  rename(
-    Pesquisadores = Control_Facilitador,
-    ID_MUVA = Nome_Empreendedora.ID_Da_Empreendedoras,
-    Nome_Sessao = Nome_da_Sess_o.Tema_Sesao,
-    Tipo_Sessao = Control_Sessao,
-    Cidade = Control_Cidade,
-    Presença = Presen_a,
-    Nome_Participante = Nome_Empreendedora.zc_display_value,
-    Status = Nome_Empreendedora.Status
-  )
-
-Webinars <- Webinars %>%
-  filter(Tipo_Sessao == "Webinar")
-
-
-# Padronização de nomes das sessões
-Webinars <- Webinars %>%
-  mutate(Nome_Sessao = case_when(
-    Nome_Sessao == "Sessao19 – Webinar1 Processo de formalização de negócios" ~ "Sessao_1",
-    Nome_Sessao == "Sessao20 – Webinar2 Práticas sustentáveis" ~ "Sessao_2", 
-    Nome_Sessao == "Sessao21 – Webinar3 Marketing Digital" ~ "Sessao_3",
-    TRUE ~ Nome_Sessao
-  ))
-
-
-Presenca_wide <- Webinars %>%
-  select(Cidade, ID_MUVA, Nome_Participante, Nome_Sessao, Presença, Pesquisadores, Tipo_Sessao) %>%
-  pivot_wider(
-    names_from = Nome_Sessao,
-    values_from = Presença
-  )
-
-# Seleciona as colunas fixas
-colunas_fixas <- c("Cidade", "Tipo_Sessao", "Pesquisadores", "ID_MUVA", "Nome_Participante")
-
-# Seleciona e ordena as colunas das sessões em ordem crescente
-colunas_sessoes <- sort(names(Presenca_wide)[grepl("^Sessao_", names(Presenca_wide))])
-
-# Reorganiza o data.frame com as colunas na ordem desejada
-Presenca_wide <- Presenca_wide %>%
-  select(all_of(c(colunas_fixas, colunas_sessoes)))
-
-Webinars <- Presenca_wide
-
-
-
-# Reordenar dinamicamente as colunas de sessão
-sessao_cols <- grep("^Sessao_\\d+$", names(Presenca_wide), value = TRUE)
-
-# Ordenar numericamente
-sessao_cols_ordenadas <- sessao_cols[order(as.numeric(gsub("Sessao_", "", sessao_cols)))]
-
-# Reordenar o dataframe mantendo as colunas fixas no início
-Webinar <- Presenca_wide %>%
-  select(
-    Cidade,Tipo_Sessao, Pesquisadores, ID_MUVA, Nome_Participante,
-    all_of(sessao_cols_ordenadas)
-  )
-
-Webinars <- Webinar %>%
-  filter(Cidade == "Nampula")
-
-
-Webinars_Beira <- Webinar %>%
-  filter(Cidade == "Beira")
-
-
-
-############### FEIRAS
-
-
-Feiras <- Presenca
-
-Feiras <- Feiras[, -c(5,6,10,11,13)]
-
-
-
-Feiras <- Feiras %>%
-  rename(
-    Pesquisadores = Control_Facilitador,
-    ID_MUVA = Nome_Empreendedora.ID_Da_Empreendedoras,
-    Nome_Sessao = Nome_da_Sess_o.Tema_Sesao,
-    Tipo_Sessao = Control_Sessao,
-    Cidade = Control_Cidade,
-    Presença = Presen_a,
-    Nome_Participante = Nome_Empreendedora.zc_display_value,
-    Status = Nome_Empreendedora.Status
-  )
-
-Feira <- Feiras %>%
-  filter(Tipo_Sessao == "Feiras")
-
-Feiras <- Feira %>%
-  filter(Cidade == "Nampula")
-
-
-Feiras_Beira <- Feira %>%
-  filter(Cidade == "Beira")
-
-
-# # Padronização de nomes das sessões
-# Feiras <- Feiras %>%
-#   mutate(Nome_Sessao = case_when(
-#     # Nome_Sessao == "Sessao19 – Webinar1 Processo de formalização de negócios" ~ "Sessao_1",
-#     # Nome_Sessao == "Sessao20 – Webinar2 Práticas sustentáveis" ~ "Sessao_2", 
-#     # Nome_Sessao == "Sessao21 – Webinar3 Marketing Digital" ~ "Sessao_3",
-#      Nome_Sessao == "Sessao22 – Feira empresarial" ~ "Sessao_22",
-#     TRUE ~ Nome_Sessao
-#   ))
+# Presencas_Colectivas_Nampula <- read_excel("Presencas_colectivas_Nampula.xlsx")
 # 
 # 
-# Presenca_wide <- Feiras %>%
-#   select(Cidade, ID_MUVA, Nome_Participante, Nome_Sessao, Presença, Pesquisadores, Tipo_Sessao) %>%
-#   pivot_wider(
-#     names_from = Nome_Sessao,
-#     values_from = Presença
+# # ============================================================
+# # 2. PREPARAÇÃO DA BASE DE NAMPULA
+# # ============================================================
+
+Presencas_Colectivas_Nampula <- Presenca[, -c(6, 7, 11, 12, 14)]
+
+Presencas_Colectivas_Nampula <- Presencas_Colectivas_Nampula %>%
+  rename(
+    Pesquisadores    = Control_Facilitador,
+    ID_MUVA          = Nome_Empreendedora.ID_Da_Empreendedoras,
+    Nome_Sessao      = Nome_da_Sess_o.Tema_Sesao,
+    Tipo_Sessao      = Control_Sessao,
+    Cidade           = Control_Cidade,
+    Presença         = Presen_a,
+    Nome_Participante = Nome_Empreendedora.zc_display_value,
+    Status            = Nome_Empreendedora.Status,
+    Ciclo             = Nome_Empreendedora.Ciclo
+  ) %>%
+  filter(Status %in% c("Activa", "Desistente"))
+
+
+# # ============================================================
+# # 3. PREPARAÇÃO DA BASE DA BEIRA
+# # ============================================================
+
+Presenca_Beira <- Presenca %>%
+  select(-c(6, 7, 11, 12, 14)) %>%
+  rename(
+    Pesquisadores    = Control_Facilitador,
+    ID_MUVA          = Nome_Empreendedora.ID_Da_Empreendedoras,
+    Nome_Sessao      = Nome_da_Sess_o.Tema_Sesao,
+    Tipo_Sessao      = Control_Sessao,
+    Cidade           = Control_Cidade,
+    Presença         = Presen_a,
+    Nome_Participante = Nome_Empreendedora.zc_display_value,
+    Status            = Nome_Empreendedora.Status,
+    Ciclo             = Nome_Empreendedora.Ciclo
+  ) %>%
+  filter(Status %in% c("Activa", "Desistente"))
+
+
+# ============================================================
+# 4. FUNÇÃO PARA PADRONIZAR SESSÕES COLECTIVAS
+# ============================================================
+
+padronizar_sessoes <- function(base) {
+  
+  base %>%
+    mutate(
+      Nome_Sessao = case_when(
+        
+        Nome_Sessao == "Sessao1 – Introdução à Abordagem Integrada do Projecto" ~ "Sessao_1",
+        Nome_Sessao == "Sessao2 – Modelo de Negócio" ~ "Sessao_2",
+        Nome_Sessao == "Sessao3 – Cadeia de suprimentos e Registos financeiros" ~ "Sessao_3",
+        Nome_Sessao == "Sessao4 – Poder interno" ~ "Sessao_4",
+        Nome_Sessao == "Sessao5 – Meio Ambiente e Negócios" ~ "Sessao_5",
+        Nome_Sessao == "Sessao6 – Gestão do tempo" ~ "Sessao_6",
+        Nome_Sessao == "Sessao7 – Jornada da Persona e Introdução à HCD" ~ "Sessao_7",
+        Nome_Sessao == "Sessao8 – Uso das Ferramentas do HCD e Inteligência artificial" ~ "Sessao_8",
+        Nome_Sessao == "Sessao9 – Experiência HCD e IA, Ganhos, Riscos e Uso Responsável da IA?" ~ "Sessao_9",
+        Nome_Sessao == "Sessao10 – Revisão de ferramentas e Negociação" ~ "Sessao_10",
+        Nome_Sessao == "Sessao11 – Prototipagem" ~ "Sessao_11",
+        Nome_Sessao == "Sessao12 – Precificação e Fechamento" ~ "Sessao_12",
+        Nome_Sessao == "Sessao13 – Criação 1 de protótipos (parte gráfica de logotipos e flyers) com empreendedoras e facilitadores" ~ "Sessao_13",
+        Nome_Sessao == "Sessao14 – Criação 2 de protótipos (parte gráfica de logotipos e flyers) com empreendedoras e facilitadores" ~ "Sessao_14",
+        Nome_Sessao == "Sessao15 – Criação 3 de protótipos (parte gráfica de logotipos e flyers) com empreendedoras e facilitadores" ~ "Sessao_15",
+        Nome_Sessao == "Sessao16 – Reflexão de como foi o processo de testagem e Aprimoramento do protótipo" ~ "Sessao_16",
+        Nome_Sessao == "Sessao17 – Eu empreendedora, agente de mudança e Revisão das ferramentas de negócios" ~ "Sessao_17",
+        Nome_Sessao == "Sessao18 – Eu mulher, empreendedora moçambicana e Avaliação da Formação" ~ "Sessao_18",
+        
+        TRUE ~ Nome_Sessao
+      )
+    )
+}
+
+
+# ============================================================
+# 5. FUNÇÃO PARA TRANSFORMAR PRESENÇAS EM FORMATO WIDE
+# ============================================================
+
+organizar_presencas <- function(base) {
+  
+  base %>%
+    select(
+      Cidade,
+      ID_MUVA,
+      Nome_Participante,
+      Nome_Sessao,
+      Presença,
+      Pesquisadores
+    ) %>%
+    
+    pivot_wider(
+      names_from = Nome_Sessao,
+      values_from = Presença,
+      values_fn = ~ first(.x)
+    ) %>%
+    
+    {
+      sessoes <- grep("^Sessao_\\d+$", names(.), value = TRUE)
+      
+      sessoes <- sessoes[
+        order(
+          as.numeric(
+            gsub("Sessao_", "", sessoes)
+          )
+        )
+      ]
+      
+      select(
+        .,
+        Cidade,
+        Pesquisadores,
+        ID_MUVA,
+        Nome_Participante,
+        all_of(sessoes)
+      )
+    }
+}
+
+
+# ============================================================
+# 6. PRESENÇAS COLECTIVAS
+# ============================================================
+
+Presencas_Colectivas_Base <- bind_rows(
+  Presenca_Beira
+) %>%
+  filter(
+    Tipo_Sessao %in% c(
+      "Bootcamp 1",
+      "Bootcamp 2",
+      "Bootcamp 3"
+    )
+  ) %>%
+  padronizar_sessoes()
+
+# 
+# # NAMPULA
+Presencas_Colectivas_Nampula <- Presencas_Colectivas_Base %>%
+  filter(Cidade == "Nampula") %>%
+  organizar_presencas()
+
+
+# BEIRA
+Presencas_Colectivas_Beira <- Presencas_Colectivas_Base %>%
+  filter(Cidade == "Beira") %>%
+  organizar_presencas()
+
+
+# ============================================================
+# 7. WEBINARS
+# ============================================================
+
+Webinars_Base <- bind_rows(
+  Presenca_Beira
+) %>%
+  filter(Tipo_Sessao == "Webinar") %>%
+  
+  mutate(
+    Nome_Sessao = case_when(
+      
+      Nome_Sessao ==
+        "Sessao19 – Webinar1 Processo de formalização de negócios" ~
+        "Sessao_19",
+      
+      Nome_Sessao ==
+        "Sessao20 – Webinar2 Práticas sustentáveis" ~
+        "Sessao_20",
+      
+      Nome_Sessao ==
+        "Sessao21 – Webinar3 Marketing Digital" ~
+        "Sessao_21",
+      
+      TRUE ~ Nome_Sessao
+    )
+  )
+
+
+# ============================================================
+# 8. ORGANIZAR WEBINARS
+# ============================================================
+
+organizar_webinars <- function(base) {
+  
+  base %>%
+    select(
+      Cidade,
+      Tipo_Sessao,
+      Pesquisadores,
+      ID_MUVA,
+      Nome_Participante,
+      Nome_Sessao,
+      Presença
+    ) %>%
+    
+    pivot_wider(
+      names_from = Nome_Sessao,
+      values_from = Presença,
+      values_fn = ~ first(.x)
+    ) %>%
+    
+    {
+      sessoes <- grep("^Sessao_\\d+$", names(.), value = TRUE)
+      
+      sessoes <- sessoes[
+        order(
+          as.numeric(
+            gsub("Sessao_", "", sessoes)
+          )
+        )
+      ]
+      
+      select(
+        .,
+        Cidade,
+        Tipo_Sessao,
+        Pesquisadores,
+        ID_MUVA,
+        Nome_Participante,
+        all_of(sessoes)
+      )
+    }
+}
+
+
+# # NAMPULA
+Webinars_Nampula <- Webinars_Base %>%
+  filter(Cidade == "Nampula") %>%
+  organizar_webinars()
+
+
+# BEIRA
+Webinars_Beira <- Webinars_Base %>%
+  filter(Cidade == "Beira") %>%
+  organizar_webinars()
+
+
+# ============================================================
+# 9. FEIRAS
+# ============================================================
+
+Feiras_Base <- bind_rows(
+  # Presenca_Nampula,
+  Presenca_Beira
+) %>%
+  filter(Tipo_Sessao == "Feiras") %>%
+  
+  mutate(
+    Nome_Sessao = case_when(
+      
+      Nome_Sessao ==
+        "Sessao22 – Feira empresarial" ~
+        "Sessao_22",
+      
+      TRUE ~ Nome_Sessao
+    )
+  )
+
+
+# ============================================================
+# 10. ORGANIZAR FEIRAS
+# ============================================================
+
+organizar_feiras <- function(base) {
+  
+  base %>%
+    select(
+      Cidade,
+      Tipo_Sessao,
+      Pesquisadores,
+      ID_MUVA,
+      Nome_Participante,
+      Nome_Sessao,
+      Presença
+    ) %>%
+    
+    pivot_wider(
+      names_from = Nome_Sessao,
+      values_from = Presença,
+      values_fn = ~ first(.x)
+    ) %>%
+    
+    {
+      sessoes <- grep("^Sessao_\\d+$", names(.), value = TRUE)
+      
+      sessoes <- sessoes[
+        order(
+          as.numeric(
+            gsub("Sessao_", "", sessoes)
+          )
+        )
+      ]
+      
+      select(
+        .,
+        Cidade,
+        Tipo_Sessao,
+        Pesquisadores,
+        ID_MUVA,
+        Nome_Participante,
+        all_of(sessoes)
+      )
+    }
+}
+
+
+# # NAMPULA
+Feiras_Nampula <- Feiras_Base %>%
+  filter(Cidade == "Nampula") %>%
+  organizar_feiras()
+
+
+# BEIRA
+Feiras_Beira <- Feiras_Base %>%
+  filter(Cidade == "Beira") %>%
+  organizar_feiras()
+
+
+# ============================================================
+# 11. VERIFICAÇÃO FINAL
+# ============================================================
+
+# dim(Presencas_Colectivas_Nampula)
+dim(Presencas_Colectivas_Beira)
+
+# dim(Webinars_Nampula)
+dim(Webinars_Beira)
+
+# dim(Feiras_Nampula)
+dim(Feiras_Beira)
+
+
+# # Número de participantes por cidade
+# Presencas_Colectivas_Nampula %>%
+#   summarise(
+#     Participantes = n_distinct(ID_MUVA)
 #   )
-# 
-# # Seleciona as colunas fixas
-# colunas_fixas <- c("Cidade", "Tipo_Sessao", "Pesquisadores", "ID_MUVA", "Nome_Participante")
-# 
-# # Seleciona e ordena as colunas das sessões em ordem crescente
-# colunas_sessoes <- sort(names(Presenca_wide)[grepl("^Sessao_", names(Presenca_wide))])
-# 
-# # Reorganiza o data.frame com as colunas na ordem desejada
-# Presenca_wide <- Presenca_wide %>%
-#   select(all_of(c(colunas_fixas, colunas_sessoes)))
-# 
-# Feiras <- Presenca_wide
-# 
-# 
-# 
-# # Reordenar dinamicamente as colunas de sessão
-# sessao_cols <- grep("^Sessao_\\d+$", names(Presenca_wide), value = TRUE)
-# 
-# # Ordenar numericamente
-# sessao_cols_ordenadas <- sessao_cols[order(as.numeric(gsub("Sessao_", "", sessao_cols)))]
-# 
-# # Reordenar o dataframe mantendo as colunas fixas no início
-# Feiras <- Presenca_wide %>%
-#   select(
-#     Cidade,Tipo_Sessao, Pesquisadores, ID_MUVA, Nome_Participante,
-#     all_of(sessao_cols_ordenadas)
-#   )
-# 
 
+Presencas_Colectivas_Beira %>%
+  summarise(
+    Participantes = n_distinct(ID_MUVA)
+  )
+
+# library(writexl)
+# 
+# write_xlsx(
+#   Presencas_Colectivas_Nampula,
+#   "Presencas_Colectivas_Nampula.xlsx"
+# )
+# 
+# write_xlsx(
+#   Feiras_Nampula,
+#   "Feiras_Nampula.xlsx"
+# )
+# 
+# write_xlsx(
+#   Webinars_Nampula,
+#   "Webinars_Nampula.xlsx"
+# )
 
 ################ DADOS FINANCEIROS
 
@@ -673,19 +857,26 @@ Feiras_Beira <- Feira %>%
 
 
 
-# =========================
-# 1. LEITURA
-# =========================
+# ============================================================
+# 1. LEITURA DA BASE
+# ============================================================
+
 Financeiro_Report <- read_excel("Financeiro_Report.xlsx")
 
-# =========================
-# 2. REMOÇÃO DE COLUNAS DESNECESSÁRIAS
-# =========================
-Financeiro_Report <- Financeiro_Report[, -c(7,8,13,15,17,27,28,29,30,35,36)]
 
-# =========================
-# 3. PADRONIZAÇÃO DE NOMES
-# =========================
+# ============================================================
+# 2. REMOÇÃO DE COLUNAS DESNECESSÁRIAS
+# ============================================================
+
+Financeiro_Report <- Financeiro_Report[, -c(
+  7, 8, 13, 15, 17, 27, 28, 29, 30, 36, 37
+)]
+
+
+# ============================================================
+# 3. PADRONIZAÇÃO DOS NOMES
+# ============================================================
+
 Financeiro_Report <- Financeiro_Report %>%
   rename(
     Projeto = NOME_PROJECTO.PROJECTO_NAME,
@@ -693,46 +884,63 @@ Financeiro_Report <- Financeiro_Report %>%
     Ano_Projeto = ANO_DO_PROJECTO.Ano_do_projecto,
     Setor_Negocio = Sector_do_negocio1.SECTOR_DO_NEGOCIO,
     Cidade = CIDADE.CIDADE,
-    Status = Nome_empreendedoras.Status
+    Status = Nome_empreendedoras.Status,
+    Ciclo = Nome_empreendedoras.Ciclo
   )
 
-Financeiro_Report <- Financeiro_Report %>%
-  filter(Status == "Activa")
 
-# =========================
-# 4. CONVERSÃO NUMÉRICA SEGURA
-# =========================
-Financeiro_Report <- Financeiro_Report %>%
+# ============================================================
+# 4. BASE NAMPULA
+#    Mantém TODAS as variáveis
+# ============================================================
+
+Financeiro_Nampula <- Financeiro_Report %>%
+  filter(
+    Cidade == "NAMPULA",
+    Status == "Activa",
+    Ciclo == "Ciclo 4"
+  )
+
+
+# ============================================================
+# 5. BASE BEIRA
+#    Mantém TODAS as variáveis
+# ============================================================
+
+Financeiro_Beira <- Financeiro_Report %>%
+  filter(
+    Cidade == "Beira",
+    Status == "Activa"
+  )
+
+
+# ============================================================
+# 6. TRATAMENTO NUMÉRICO - NAMPULA
+# ============================================================
+
+Financeiro_Nampula <- Financeiro_Nampula %>%
   mutate(
     across(
-      c(Rendimento, Custo_Operacional, Custo_de_produtos_Servicos),
+      c(
+        Rendimento,
+        Custo_Operacional,
+        Custo_de_produtos_Servicos
+      ),
       ~ as.numeric(.)
-    )
-  )
-
-# =========================
-# 5. TRATAMENTO DE NA
-# =========================
-Financeiro_Report <- Financeiro_Report %>%
-  mutate(
+    ),
+    
     Rendimento = replace_na(Rendimento, 0),
     Custo_Operacional = replace_na(Custo_Operacional, 0),
-    Custo_de_produtos_Servicos = replace_na(Custo_de_produtos_Servicos, 0)
-  )
-
-# =========================
-# 6. VARIÁVEL BASE (LUCRO SEMANAL)
-# =========================
-Financeiro_Report <- Financeiro_Report %>%
-  mutate(
-    Lucro_Semanal = Rendimento - Custo_Operacional - Custo_de_produtos_Servicos
-  )
-
-# =========================
-# 7. PADRONIZAÇÃO DE PERÍODO (ANTES DE AGREGAR)
-# =========================
-Financeiro_Report <- Financeiro_Report %>%
-  mutate(
+    Custo_de_produtos_Servicos = replace_na(
+      Custo_de_produtos_Servicos,
+      0
+    ),
+    
+    Lucro_Semanal =
+      Rendimento -
+      Custo_Operacional -
+      Custo_de_produtos_Servicos,
+    
     Periodo = case_when(
       Periodo == "Primeiro Mes de Implementação" ~ "Primeiro Mês",
       Periodo == "Segundo Mes de Implementação" ~ "Segundo Mês",
@@ -741,39 +949,41 @@ Financeiro_Report <- Financeiro_Report %>%
     )
   )
 
-# =========================
-# 8. DATASET FINAL (AGREGADO PARA DASHBOARD)
-# =========================
-Financeiro_Report_Agr <- Financeiro_Report %>%
-  group_by(
-    Nome_do_pesquisador,
-    Nome_Empreendedora,
-    Setor_Negocio,
-    Ano_Projeto,
-    Projeto,
-    Cidade,
-    Periodo,
-    Semanas
-  ) %>%
-  summarise(
-    Lucro_Semanal = sum(Lucro_Semanal, na.rm = TRUE),
-    Lucro_Mensal = sum(Lucro_Semanal, na.rm = TRUE),
-    Rendimento_Total = sum(Rendimento, na.rm = TRUE),
-    Custo_Operacional_Total = sum(Custo_Operacional, na.rm = TRUE),
-    Custo_Produtos_Total = sum(Custo_de_produtos_Servicos, na.rm = TRUE),
-    .groups = "drop"
+
+# ============================================================
+# 7. TRATAMENTO NUMÉRICO - BEIRA
+# ============================================================
+
+Financeiro_Beira <- Financeiro_Beira %>%
+  mutate(
+    across(
+      c(
+        Rendimento,
+        Custo_Operacional,
+        Custo_de_produtos_Servicos
+      ),
+      ~ as.numeric(.)
+    ),
+    
+    Rendimento = replace_na(Rendimento, 0),
+    Custo_Operacional = replace_na(Custo_Operacional, 0),
+    Custo_de_produtos_Servicos = replace_na(
+      Custo_de_produtos_Servicos,
+      0
+    ),
+    
+    Lucro_Semanal =
+      Rendimento -
+      Custo_Operacional -
+      Custo_de_produtos_Servicos,
+    
+    Periodo = case_when(
+      Periodo == "Primeiro Mes de Implementação" ~ "Primeiro Mês",
+      Periodo == "Segundo Mes de Implementação" ~ "Segundo Mês",
+      Periodo == "Terceiro Mes de Implementação" ~ "Terceiro Mês",
+      TRUE ~ Periodo
+    )
   )
-
-
-  
-  Financeiro_Report_Agregado <- Financeiro_Report_Agr %>%
-  filter(Cidade == "NAMPULA")
-
-
-  Financeiro_Report_Agregado_Beira <- Financeiro_Report_Agr %>%
-  filter(Cidade == "Beira")
-
-
 
 
 ############################## BEIRA
@@ -782,3 +992,33 @@ PERFIL_PAM_VERDE_BEIRA_C3_2026 <- read_excel("PERFIL_PAM_VERDE_BEIRA_C3_2026.xls
 
 # Presencas_Colectivas_Beira <- read_excel("Presencas_Colectivas_Beira.xlsx")
 
+
+
+# ===============================================================
+# PAM VERDE - BASE EXCLUSIVA PARA TOC | CICLO 3
+# ===============================================================
+
+PAM_VERDE_TOC_C3 <- Pam_Verde_Indicadores %>%
+  filter(Ciclo == "Ciclo 4")
+
+FINANCEIRO_TOC_NAMPULA <- Financeiro_Nampula
+
+# ============================================================
+# BASE PARA INDICADOR DE CONCLUSÃO DA FORMAÇÃO
+# PAM VERDE C3 2026
+# ============================================================
+
+PAM_VERDE_CONCLUSAO_FORMACAO <- PERFIL_PAM_VERDE_C3_2026 %>%
+  
+  dplyr::mutate(
+    
+    Status_Padrao = toupper(
+      stringr::str_squish(
+        trimws(as.character(Status))
+      )
+    )
+  )
+
+# table(FINANCEIRO_TOC_NAMPULA$Periodo, FINANCEIRO_TOC_NAMPULA$Lucro_Semanal)
+
+table(PAM_VERDE_TOC_C3$Tipo_Avaliacao,PAM_VERDE_TOC_C3$Uso_de_ferramentas_de_IA)
