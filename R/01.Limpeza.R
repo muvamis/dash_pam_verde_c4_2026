@@ -27,38 +27,37 @@ library(lubridate)
 dotenv::load_dot_env()
 
 
-PAM_VERDE_BASELINE_2026 <- read_excel("PAM_VERDE_BASELINE_ENDLINE_NAMPULA_BEIRA.xlsx")
+# PAM_VERDE_BASELINE_2026 <- read_excel("PAM_VERDE_BASELINE_ENDLINE_CICLO_4.xlsx")
 
 
 
-Pegada_Carbono <- read_excel("Pegada_Baseline_2026.xlsx")
-
+# Pegada_Carbono <- read_excel("PEGADA _DE_CARBONO_CICLO_4.xlsx")
 
 # ===============================================================
 # NOMES DAS EMPREENDEDORAS A EXCLUIR
 # ===============================================================
 
 nomes_excluir <- c(
-  "AMELIA AFUSSA ANTONIO",
-  "AQUILAY JOAO HOVASE",
-  "DENISE ISILDA MIGUEL TOCOTA",
-  "DULQUIFAL ASSANE SIMBA",
-  "FAIZA FERNANDO HENRIQUES",
-  "FATIMA SALVADOR AMADE",
-  "GLORIA DA CONSTANCIA LOJA",
-  "IVANDRA CHALES",
-  "MADALENA CARIM MERAGE",
-  "MARIAMO DOMINGOS JAIROSSE",
-  "KHADYA AMADE SILIMO",
-  "NATANIELA DILCIA MASSANGAIE",
-  "NGAMO SUMAIL",
-  "MARIAMO HANIFA ABACAR CHALE SALIMO",
-  "SAMIRA COMBO MUHOLE ASSUMANE",
-  "SHEILA RAIMUNDO ANTUNES",
-  "SUZANA JOAQUIM VAQUINA",
-  "MARAVILHA JANUARIO CARIA",
-  "ESTEFANIA SAMUEL BOLACHA",
-  "MINDOCA NARCISO MAHLAULE"
+  "AMELIA AFUSSA ANTONIO"
+  # "AQUILAY JOAO HOVASE",
+  # "DENISE ISILDA MIGUEL TOCOTA",
+  # "DULQUIFAL ASSANE SIMBA",
+  # "FAIZA FERNANDO HENRIQUES",
+  # "FATIMA SALVADOR AMADE",
+  # "GLORIA DA CONSTANCIA LOJA",
+  # "IVANDRA CHALES",
+  # "MADALENA CARIM MERAGE",
+  # "MARIAMO DOMINGOS JAIROSSE",
+  # "KHADYA AMADE SILIMO",
+  # "NATANIELA DILCIA MASSANGAIE",
+  # "NGAMO SUMAIL",
+  # "MARIAMO HANIFA ABACAR CHALE SALIMO",
+  # "SAMIRA COMBO MUHOLE ASSUMANE",
+  # "SHEILA RAIMUNDO ANTUNES",
+  # "SUZANA JOAQUIM VAQUINA",
+  # "MARAVILHA JANUARIO CARIA",
+  # "ESTEFANIA SAMUEL BOLACHA",
+  # "MINDOCA NARCISO MAHLAULE"
 )
 
 
@@ -67,8 +66,8 @@ nomes_excluir <- c(
 # ===============================================================
 
 PAM_VERDE_BASELINE_2026 <- read_excel(
-  "PAM_VERDE_2026_Baseline.xlsx"
-) %>%
+  "PAM_VERDE_BASELINE_ENDLINE_CICLO_4.xlsx"
+  ) %>%
   mutate(
     `Nomes Das Empreendedoras` = toupper(
       stringr::str_squish(
@@ -86,8 +85,7 @@ PAM_VERDE_BASELINE_2026 <- read_excel(
 # ===============================================================
 
 Pegada_Carbono <- read_excel(
-  "Pegada_Baseline_2026.xlsx"
-) %>%
+  "PEGADA_DE_CARBONO_CICLO_4.xlsx") %>%
   mutate(
     `Nomes das participantes` = toupper(
       stringr::str_squish(
@@ -98,6 +96,10 @@ Pegada_Carbono <- read_excel(
   filter(
     !`Nomes das participantes` %in% nomes_excluir
   )
+
+Pegada_Carbono <- Pegada_Carbono %>%
+  filter(`Ciclo do Programa:` == "Ciclo 4")
+
 # Pam_Verde_Indicadores <- Pam_Verde_Indicadores[, -c(95,96,97,98,99)]  
 # 
 # Pam_Verde_Indicadores <- Pam_Verde_Indicadores %>%
@@ -138,7 +140,7 @@ Pam_Verde_Indicadores <- PAM_VERDE_BASELINE_2026 %>%
 Pam_Verde_Indicadores <- Pam_Verde_Indicadores %>%
   filter(Ciclo == "Ciclo 4")
 
-table(Pam_Verde_Indicadores$`Até que ponto as actividades ligadas à questão de género ajudaram a compreender as desigualdades entre homens e mulheres?`)
+table(Pam_Verde_Indicadores$`Já aplica esta prática no seu negócio?`)
 
 
 ############## PEGADA DE CARBONO
@@ -402,9 +404,9 @@ Pegada_Carbono <- Pegada_Carbono %>%
 
 ############################# MONITORIA
 
-PERFIL_PAM_VERDE_C3_2026 <- read_excel("PERFIL_NAMPULA_CICLO_4.xlsx")
+PERFIL_PAM_VERDE_C4_2026 <- read_excel("PERFIL_NAMPULA_CICLO_4.xlsx")
 
-PERFIL_PAM_VERDE_C3_2026 <- PERFIL_PAM_VERDE_C3_2026 %>%
+PERFIL_PAM_VERDE_C4_2026 <- PERFIL_PAM_VERDE_C4_2026 %>%
   rename(Aceita_Participar = `Confirma que compreendeu a informação acima e aceita participar nesta entrevista?`,  
          Data_Entrevista = `Data da entrevista`,  
          Tipo_Avaliacao = `Momento:`,
@@ -1008,7 +1010,7 @@ FINANCEIRO_TOC_NAMPULA <- Financeiro_Nampula
 # PAM VERDE C3 2026
 # ============================================================
 
-PAM_VERDE_CONCLUSAO_FORMACAO <- PERFIL_PAM_VERDE_C3_2026 %>%
+PAM_VERDE_CONCLUSAO_FORMACAO <- PERFIL_PAM_VERDE_C4_2026 %>%
   
   dplyr::mutate(
     
@@ -1021,4 +1023,4 @@ PAM_VERDE_CONCLUSAO_FORMACAO <- PERFIL_PAM_VERDE_C3_2026 %>%
 
 # table(FINANCEIRO_TOC_NAMPULA$Periodo, FINANCEIRO_TOC_NAMPULA$Lucro_Semanal)
 
-table(PAM_VERDE_TOC_C3$Tipo_Avaliacao,PAM_VERDE_TOC_C3$Uso_de_ferramentas_de_IA)
+# table(PAM_VERDE_TOC_C3$Tipo_Avaliacao,PAM_VERDE_TOC_C3$Uso_de_ferramentas_de_IA)

@@ -112,7 +112,7 @@ ui <- navbarPage(
   ),
   
   # ==========================================================
-  # PÁGINA 1 - INDICADORES_CICLO3
+  # PÁGINA 1 - INDICADORES_CICLO_4
   # ==========================================================
   tabPanel(
     tagList(icon("chart-line"), "Avaliação_Nampula_C4"),
@@ -161,20 +161,18 @@ ui <- navbarPage(
             ",
                   
                   h4(
-                    "Avaliação das Empreendedoras – Nampula e Beira",
+                    "Avaliação das Empreendedoras – Nampula",
                     style = "color:#9442d4; margin-top:0;"
                   ),
                   
                   p(
                     "A avaliação contempla as empreendedoras participantes do programa 
-              nas cidades de Nampula e Beira, considerando os dados recolhidos 
-              no Baseline e no Endline."
+              na cidade de Nampula ciclo 4, considerando os dados recolhidos 
+              no Baseline."
                   ),
                   
                   p(
-                    "No Baseline, participaram 49 empreendedoras em Nampula e 36 
-              em Beira. No Endline, participaram 30 empreendedoras em Nampula 
-              e na Beira a formação ainda esta a decorrer."
+                    "No Baseline, participaram 52 empreendedoras em Nampula."
                   ),
                   
                   p(
@@ -186,9 +184,8 @@ ui <- navbarPage(
                   
                   p(
                     strong("Nota: "),
-                    "os resultados apresentados nas análises comparativas consideram 
-              apenas as empreendedoras que possuem informação nos dois momentos 
-              de avaliação."
+                    "os resultados apresentados nas análises consideram 
+              apenas as empreendedoras que possuem informação no Baseline."
                   )
                 )
               )
@@ -1471,7 +1468,7 @@ ui <- navbarPage(
     )
   ),
   # ==========================================================
-  # PÁGINA 2 - MONITORIA_CICLO3
+  # PÁGINA 2 - MONITORIA_CICLO4
   # ==========================================================
   tabPanel(
     tagList(icon("clipboard-check"), "Monitoria_Nampula_C4"),
@@ -1489,7 +1486,7 @@ ui <- navbarPage(
             selectInput(
               "filtro_monitoria_geral",
               "Distrito:",
-              choices = c("Todos", unique(PERFIL_PAM_VERDE_C3_2026$Cidade)),
+              choices = c("Todos", unique(PERFIL_PAM_VERDE_C4_2026$Cidade)),
               selected = "Todos"
             )
           ),
@@ -1497,8 +1494,16 @@ ui <- navbarPage(
           mainPanel(
             br(),
             
-            tags$h5(
-              "Os gráficos abaixo apresentam uma visão geral do projeto, evidenciando o percurso das empreendedoras desde a seleção até à conclusão da formação. Das 50 empreendedoras selecionadas (100%), 43 iniciaram a formação (86%). Entre as participantes que iniciaram, 30 concluíram a formação com sucesso (70%), enquanto 13 desistiram (30%)."
+            div(
+              style = "
+    background-color:#f5f3f4;
+    padding:18px 22px;
+    border-radius:8px;
+    margin-bottom:20px;
+    border-left:5px solid #9442d4;
+  ",
+              
+              uiOutput("legenda_monitoria_geral")
             ),
             
             fluidRow(
@@ -1792,392 +1797,392 @@ ui <- navbarPage(
     )
   ),
   
-  
-  # ==========================================================
-  # PÁGINA 3 - MONITORIA_BEIRA_C1
-  # ==========================================================
-  
-  tabPanel(
-    tagList(icon("clipboard-check"), "Monitoria_Beira_C2"),
-    
-    tabsetPanel(
-      
-      # ======================================================
-      # ABA 1 - RESUMO GERAL
-      # ======================================================
-      
-      tabPanel(
-        "Resumo Geral",
-        
-        sidebarLayout(
-          
-          sidebarPanel(
-            
-            selectInput(
-              "filtro_monitoria_geral_beira",
-              "Distrito:",
-              choices = c(
-                "Todos",
-                unique(PERFIL_PAM_VERDE_BEIRA_C3_2026$`Provincia de residencia`)
-              ),
-              selected = "Todos"
-            )
-            
-          ),
-          
-          mainPanel(
-            
-            br(),
-            
-            tags$h5(
-              "Os gráficos abaixo apresentam uma visão geral do projecto na Beira, evidenciando o total de empreendedoras seleccionadas e o seu estado no processo de formação."
-            ),
-            
-            fluidRow(
-              column(
-                6,
-                plotOutput("grafico1_beira")
-              ),
-              
-              column(
-                6,
-                plotOutput("grafico2_beira")
-              )
-            )
-            
-          )
-        )
-      ),
-      
-      
-      # ======================================================
-      # ABA 2 - PRESENÇAS
-      # ======================================================
-      
-      tabPanel(
-        "Presenças",
-        
-        tabsetPanel(
-          
-          
-          # ==================================================
-          # PRESENÇAS COLECTIVAS
-          # ==================================================
-          
-          tabPanel(
-            "Presenças Colectivas",
-            
-            sidebarLayout(
-              
-              sidebarPanel(
-                
-                selectInput(
-                  "filtro_monitoria_presencas_beira",
-                  "Selecione Cidade:",
-                  choices = c(
-                    "Todas",
-                    unique(Presencas_Colectivas_Beira$Cidade)
-                  ),
-                  selected = "Todas"
-                ),
-                
-                selectInput(
-                  "mentora_coletiva_beira",
-                  "Selecione Pesquisador(a):",
-                  choices = c(
-                    "Todas",
-                    unique(Presencas_Colectivas_Beira$Pesquisadores)
-                  ),
-                  selected = "Todas"
-                )
-                
-              ),
-              
-              
-              mainPanel(
-                
-                div(
-                  class = "value-box-container",
-                  uiOutput("total_participantes_beira"),
-                  uiOutput("total_sessoes_beira"),
-                  uiOutput("taxa_presenca_beira")
-                ),
-                
-                br(),
-                
-                fluidRow(
-                  column(
-                    12,
-                    uiOutput("texto_Pre_Col_beira"),
-                    plotlyOutput("grafico_sessoes_col_beira")
-                  )
-                ),
-                
-                br(),
-                
-                DTOutput("tabela_presencas_col_beira")
-                
-              )
-            )
-          ),
-          
-          # ==================================================
-          # WEBINARS BEIRA
-          # ==================================================
-          
-          tabPanel(
-            "Webinars",
-            
-            sidebarLayout(
-              
-              sidebarPanel(
-                
-                selectInput(
-                  "filtro_monitoria_webinar_beira",
-                  "Selecione Cidade:",
-                  choices = c("Todas"),
-                  selected = "Todas"
-                ),
-                
-                selectInput(
-                  "pesquisador_webinar_beira",
-                  "Selecione Pesquisador(a):",
-                  choices = c("Todas"),
-                  selected = "Todas"
-                )
-                
-              ),
-              
-              
-              mainPanel(
-                
-                div(
-                  class = "value-box-container",
-                  uiOutput("total_participantes_web_beira"),
-                  uiOutput("total_sessoes_web_beira"),
-                  uiOutput("taxa_presenca_web_beira")
-                ),
-                
-                br(),
-                
-                fluidRow(
-                  column(
-                    12,
-                    uiOutput("texto_webinar_beira"),
-                    plotlyOutput("grafico_webinar_beira")
-                  )
-                ),
-                
-                br(),
-                
-                DTOutput("tabela_webinar_beira")
-                
-              )
-            )
-          ),
-          
-          # ==================================================
-          # Feiras_Nampula BEIRA
-          # ==================================================
-          
-          tabPanel(
-            "Feiras",
-            
-            sidebarLayout(
-              
-              sidebarPanel(
-                
-                selectInput(
-                  "filtro_monitoria_feira_beira",
-                  "Selecione Cidade:",
-                  choices = c("Todas"),
-                  selected = "Todas"
-                ),
-                
-                selectInput(
-                  "pesquisador_feira_beira",
-                  "Selecione Pesquisador(a):",
-                  choices = c("Todas"),
-                  selected = "Todas"
-                )
-                
-              ),
-              
-              
-              mainPanel(
-                
-                # div(
-                #   class = "value-box-container",
-                #   uiOutput("total_participantes_feira_beira"),
-                #   uiOutput("total_sessoes_feira_beira"),
-                #   uiOutput("taxa_presenca_feira_beira")
-                # ),
-                # 
-                # br(),
-                
-                fluidRow(
-                  column(
-                    12,
-                    uiOutput("texto_feira_beira"),
-                    plotlyOutput("grafico_feira_beira")
-                  )
-                ),
-                
-                br(),
-                
-                DTOutput("tabela_feira_beira")
-                
-              )
-            )
-          )
-        )
-      ),
-      
-      # ======================================================
-      # ABA 3 - DADOS FINANCEIROS
-      # ======================================================
-      
-      tabPanel(
-        "Dados Financeiros",
-        icon = icon("hand-holding-usd"),
-        
-        sidebarLayout(
-          
-          sidebarPanel(
-            
-            selectInput(
-              "Pesquisador_beira",
-              "Selecione o Pesquisador:",
-              choices = c(
-                "Todos",
-                unique(Financeiro_Beira$Nome_do_pesquisador)
-              )
-            ),
-            
-            selectInput(
-              "Nome_Empreendedora_beira",
-              "Selecione a Empreendedora:",
-              choices = c(
-                "Todas",
-                unique(Financeiro_Beira$Nome_Empreendedora)
-              )
-            ),
-            
-            selectInput(
-              "Mes_beira",
-              "Selecione o Mês:",
-              choices = c(
-                "Todos",
-                unique(Financeiro_Beira$Periodo)
-              )
-            )
-            
-          ),
-          
-          mainPanel(
-            
-            tabsetPanel(
-              
-              tabPanel(
-                "Resumo",
-                
-                div(
-                  class = "value-box-container",
-                  uiOutput("vb_emp_beira"),
-                  uiOutput("vb_lucro_beira"),
-                  uiOutput("vb_rendimento_beira"),
-                  uiOutput("vb_custos_beira")
-                ),
-                br(),
-                plotlyOutput("cidade_plot_beira")
-              ),
-              
-              tabPanel(
-                "Semanal",
-                
-                plotlyOutput("grafico_financeiro_beira"),
-                
-                br(),
-                
-                plotlyOutput("grafico_barras_semanas_beira")
-              ),
-              
-              tabPanel(
-                "Mensal",
-                
-                div(
-                  class = "value-box-container",
-                  
-                  uiOutput("vb_aumento_lucro_mes_1_2_beira"),
-                  uiOutput("vb_aumento_25_mes_1_2_beira"),
-                  uiOutput("vb_aumento_lucro_mes_2_3_beira"),
-                  uiOutput("vb_aumento_25_mes_2_3_beira")
-                ),
-                
-                fluidRow(
-                  
-                  box(
-                    width = 12,
-                    title = "",
-                    
-                    div(
-                      style = "
-                        background-color:#f5f3f4;
-                        padding:12px;
-                        border-radius:6px;
-                        margin-bottom:20px;
-                      ",
-                      
-                      uiOutput(
-                        "leitura_grafico_mensal_beira"
-                      )
-                    ),
-                    
-                    plotlyOutput(
-                      "grafico_mensal_beira",
-                      height = 450
-                    )
-                  )
-                  
-                ),
-                
-                fluidRow(
-                  
-                  box(
-                    width = 12,
-                    title = "",
-                    
-                    plotlyOutput(
-                      "grafico_barras_beira"
-                    )
-                  )
-                  
-                ),
-                
-                br(),
-                
-                fluidRow(
-                  
-                  box(
-                    width = 12,
-                    title = "Controlo de Evolução do Lucro Mensal",
-                    
-                    DTOutput(
-                      "tabela_controle_lucro_beira"
-                    )
-                  )
-                  
-                )
-              )
-              
-            )
-          )
-        )
-      )
-      
-    )   
-  ),    
-  
+  # 
+  # # ==========================================================
+  # # PÁGINA 3 - MONITORIA_BEIRA_C1
+  # # ==========================================================
+  # 
+  # tabPanel(
+  #   tagList(icon("clipboard-check"), "Monitoria_Beira_C2"),
+  #   
+  #   tabsetPanel(
+  #     
+  #     # ======================================================
+  #     # ABA 1 - RESUMO GERAL
+  #     # ======================================================
+  #     
+  #     tabPanel(
+  #       "Resumo Geral",
+  #       
+  #       sidebarLayout(
+  #         
+  #         sidebarPanel(
+  #           
+  #           selectInput(
+  #             "filtro_monitoria_geral_beira",
+  #             "Distrito:",
+  #             choices = c(
+  #               "Todos",
+  #               unique(PERFIL_PAM_VERDE_BEIRA_C3_2026$`Provincia de residencia`)
+  #             ),
+  #             selected = "Todos"
+  #           )
+  #           
+  #         ),
+  #         
+  #         mainPanel(
+  #           
+  #           br(),
+  #           
+  #           tags$h5(
+  #             "Os gráficos abaixo apresentam uma visão geral do projecto na Beira, evidenciando o total de empreendedoras seleccionadas e o seu estado no processo de formação."
+  #           ),
+  #           
+  #           fluidRow(
+  #             column(
+  #               6,
+  #               plotOutput("grafico1_beira")
+  #             ),
+  #             
+  #             column(
+  #               6,
+  #               plotOutput("grafico2_beira")
+  #             )
+  #           )
+  #           
+  #         )
+  #       )
+  #     ),
+  #     
+  #     
+  #     # ======================================================
+  #     # ABA 2 - PRESENÇAS
+  #     # ======================================================
+  #     
+  #     tabPanel(
+  #       "Presenças",
+  #       
+  #       tabsetPanel(
+  #         
+  #         
+  #         # ==================================================
+  #         # PRESENÇAS COLECTIVAS
+  #         # ==================================================
+  #         
+  #         tabPanel(
+  #           "Presenças Colectivas",
+  #           
+  #           sidebarLayout(
+  #             
+  #             sidebarPanel(
+  #               
+  #               selectInput(
+  #                 "filtro_monitoria_presencas_beira",
+  #                 "Selecione Cidade:",
+  #                 choices = c(
+  #                   "Todas",
+  #                   unique(Presencas_Colectivas_Beira$Cidade)
+  #                 ),
+  #                 selected = "Todas"
+  #               ),
+  #               
+  #               selectInput(
+  #                 "mentora_coletiva_beira",
+  #                 "Selecione Pesquisador(a):",
+  #                 choices = c(
+  #                   "Todas",
+  #                   unique(Presencas_Colectivas_Beira$Pesquisadores)
+  #                 ),
+  #                 selected = "Todas"
+  #               )
+  #               
+  #             ),
+  #             
+  #             
+  #             mainPanel(
+  #               
+  #               div(
+  #                 class = "value-box-container",
+  #                 uiOutput("total_participantes_beira"),
+  #                 uiOutput("total_sessoes_beira"),
+  #                 uiOutput("taxa_presenca_beira")
+  #               ),
+  #               
+  #               br(),
+  #               
+  #               fluidRow(
+  #                 column(
+  #                   12,
+  #                   uiOutput("texto_Pre_Col_beira"),
+  #                   plotlyOutput("grafico_sessoes_col_beira")
+  #                 )
+  #               ),
+  #               
+  #               br(),
+  #               
+  #               DTOutput("tabela_presencas_col_beira")
+  #               
+  #             )
+  #           )
+  #         ),
+  #         
+  #         # ==================================================
+  #         # WEBINARS BEIRA
+  #         # ==================================================
+  #         
+  #         tabPanel(
+  #           "Webinars",
+  #           
+  #           sidebarLayout(
+  #             
+  #             sidebarPanel(
+  #               
+  #               selectInput(
+  #                 "filtro_monitoria_webinar_beira",
+  #                 "Selecione Cidade:",
+  #                 choices = c("Todas"),
+  #                 selected = "Todas"
+  #               ),
+  #               
+  #               selectInput(
+  #                 "pesquisador_webinar_beira",
+  #                 "Selecione Pesquisador(a):",
+  #                 choices = c("Todas"),
+  #                 selected = "Todas"
+  #               )
+  #               
+  #             ),
+  #             
+  #             
+  #             mainPanel(
+  #               
+  #               div(
+  #                 class = "value-box-container",
+  #                 uiOutput("total_participantes_web_beira"),
+  #                 uiOutput("total_sessoes_web_beira"),
+  #                 uiOutput("taxa_presenca_web_beira")
+  #               ),
+  #               
+  #               br(),
+  #               
+  #               fluidRow(
+  #                 column(
+  #                   12,
+  #                   uiOutput("texto_webinar_beira"),
+  #                   plotlyOutput("grafico_webinar_beira")
+  #                 )
+  #               ),
+  #               
+  #               br(),
+  #               
+  #               DTOutput("tabela_webinar_beira")
+  #               
+  #             )
+  #           )
+  #         ),
+  #         
+  #         # ==================================================
+  #         # Feiras_Nampula BEIRA
+  #         # ==================================================
+  #         
+  #         tabPanel(
+  #           "Feiras",
+  #           
+  #           sidebarLayout(
+  #             
+  #             sidebarPanel(
+  #               
+  #               selectInput(
+  #                 "filtro_monitoria_feira_beira",
+  #                 "Selecione Cidade:",
+  #                 choices = c("Todas"),
+  #                 selected = "Todas"
+  #               ),
+  #               
+  #               selectInput(
+  #                 "pesquisador_feira_beira",
+  #                 "Selecione Pesquisador(a):",
+  #                 choices = c("Todas"),
+  #                 selected = "Todas"
+  #               )
+  #               
+  #             ),
+  #             
+  #             
+  #             mainPanel(
+  #               
+  #               # div(
+  #               #   class = "value-box-container",
+  #               #   uiOutput("total_participantes_feira_beira"),
+  #               #   uiOutput("total_sessoes_feira_beira"),
+  #               #   uiOutput("taxa_presenca_feira_beira")
+  #               # ),
+  #               # 
+  #               # br(),
+  #               
+  #               fluidRow(
+  #                 column(
+  #                   12,
+  #                   uiOutput("texto_feira_beira"),
+  #                   plotlyOutput("grafico_feira_beira")
+  #                 )
+  #               ),
+  #               
+  #               br(),
+  #               
+  #               DTOutput("tabela_feira_beira")
+  #               
+  #             )
+  #           )
+  #         )
+  #       )
+  #     ),
+  #     
+  #     # ======================================================
+  #     # ABA 3 - DADOS FINANCEIROS
+  #     # ======================================================
+  #     
+  #     tabPanel(
+  #       "Dados Financeiros",
+  #       icon = icon("hand-holding-usd"),
+  #       
+  #       sidebarLayout(
+  #         
+  #         sidebarPanel(
+  #           
+  #           selectInput(
+  #             "Pesquisador_beira",
+  #             "Selecione o Pesquisador:",
+  #             choices = c(
+  #               "Todos",
+  #               unique(Financeiro_Beira$Nome_do_pesquisador)
+  #             )
+  #           ),
+  #           
+  #           selectInput(
+  #             "Nome_Empreendedora_beira",
+  #             "Selecione a Empreendedora:",
+  #             choices = c(
+  #               "Todas",
+  #               unique(Financeiro_Beira$Nome_Empreendedora)
+  #             )
+  #           ),
+  #           
+  #           selectInput(
+  #             "Mes_beira",
+  #             "Selecione o Mês:",
+  #             choices = c(
+  #               "Todos",
+  #               unique(Financeiro_Beira$Periodo)
+  #             )
+  #           )
+  #           
+  #         ),
+  #         
+  #         mainPanel(
+  #           
+  #           tabsetPanel(
+  #             
+  #             tabPanel(
+  #               "Resumo",
+  #               
+  #               div(
+  #                 class = "value-box-container",
+  #                 uiOutput("vb_emp_beira"),
+  #                 uiOutput("vb_lucro_beira"),
+  #                 uiOutput("vb_rendimento_beira"),
+  #                 uiOutput("vb_custos_beira")
+  #               ),
+  #               br(),
+  #               plotlyOutput("cidade_plot_beira")
+  #             ),
+  #             
+  #             tabPanel(
+  #               "Semanal",
+  #               
+  #               plotlyOutput("grafico_financeiro_beira"),
+  #               
+  #               br(),
+  #               
+  #               plotlyOutput("grafico_barras_semanas_beira")
+  #             ),
+  #             
+  #             tabPanel(
+  #               "Mensal",
+  #               
+  #               div(
+  #                 class = "value-box-container",
+  #                 
+  #                 uiOutput("vb_aumento_lucro_mes_1_2_beira"),
+  #                 uiOutput("vb_aumento_25_mes_1_2_beira"),
+  #                 uiOutput("vb_aumento_lucro_mes_2_3_beira"),
+  #                 uiOutput("vb_aumento_25_mes_2_3_beira")
+  #               ),
+  #               
+  #               fluidRow(
+  #                 
+  #                 box(
+  #                   width = 12,
+  #                   title = "",
+  #                   
+  #                   div(
+  #                     style = "
+  #                       background-color:#f5f3f4;
+  #                       padding:12px;
+  #                       border-radius:6px;
+  #                       margin-bottom:20px;
+  #                     ",
+  #                     
+  #                     uiOutput(
+  #                       "leitura_grafico_mensal_beira"
+  #                     )
+  #                   ),
+  #                   
+  #                   plotlyOutput(
+  #                     "grafico_mensal_beira",
+  #                     height = 450
+  #                   )
+  #                 )
+  #                 
+  #               ),
+  #               
+  #               fluidRow(
+  #                 
+  #                 box(
+  #                   width = 12,
+  #                   title = "",
+  #                   
+  #                   plotlyOutput(
+  #                     "grafico_barras_beira"
+  #                   )
+  #                 )
+  #                 
+  #               ),
+  #               
+  #               br(),
+  #               
+  #               fluidRow(
+  #                 
+  #                 box(
+  #                   width = 12,
+  #                   title = "Controlo de Evolução do Lucro Mensal",
+  #                   
+  #                   DTOutput(
+  #                     "tabela_controle_lucro_beira"
+  #                   )
+  #                 )
+  #                 
+  #               )
+  #             )
+  #             
+  #           )
+  #         )
+  #       )
+  #     )
+  #     
+  #   )   
+  # ),    
+  # 
   
   # ==========================================================
   # PÁGINA 4 - TOC
@@ -9365,126 +9370,315 @@ server <- function(input, output, session) {
   # TEXTO - SEPARAÇÃO DAS CONTAS
   # ============================================================
   
+  # ============================================================
+  # TEXTO - SEPARAÇÃO DAS CONTAS
+  # ============================================================
+  
   output$texto_separacao_contas <- renderUI({
     
     df <- Pam_Verde_Indicadores
     
-    if (input$filtro_cidade != "Todas") {
+    # ==========================================================
+    # FILTRO - CIDADE
+    # ==========================================================
+    
+    if (!is.null(input$filtro_cidade) &&
+        input$filtro_cidade != "Todas") {
+      
       df <- df %>%
-        filter(Cidade == input$filtro_cidade)
+        dplyr::filter(
+          Cidade == input$filtro_cidade
+        )
     }
     
-    if (input$filtro_ciclo != "Todos") {
+    
+    # ==========================================================
+    # FILTRO - CICLO
+    # ==========================================================
+    
+    if (!is.null(input$filtro_ciclo) &&
+        input$filtro_ciclo != "Todos") {
+      
       df <- df %>%
-        filter(Ciclo == input$filtro_ciclo)
+        dplyr::filter(
+          Ciclo == input$filtro_ciclo
+        )
     }
+    
+    
+    # ==========================================================
+    # VARIÁVEL
+    # ==========================================================
     
     var <- "Faz separação das contas pessoais e do negócio"
     
-    req(var %in% names(df))
     
-    df <- df %>%
-      filter(
-        Tipo_Avaliacao %in% c("Baseline", "Endline"),
-        !is.na(Tipo_Avaliacao),
-        !is.na(.data[[var]]),
-        .data[[var]] != ""
-      )
+    # ==========================================================
+    # VERIFICAR SE A VARIÁVEL EXISTE
+    # ==========================================================
     
-    if (nrow(df) == 0) {
+    if (!var %in% names(df)) {
+      
       return(
         tags$p(
-          style = "margin:0;text-align:justify;",
+          style = "margin:0;text-align:justify;color:#b71c1c;",
+          paste0(
+            "A variável '",
+            var,
+            "' não foi encontrada na base de dados."
+          )
+        )
+      )
+    }
+    
+    
+    # ==========================================================
+    # LIMPEZA
+    # ==========================================================
+    
+    df <- df %>%
+      dplyr::mutate(
+        categoria = as.character(
+          .data[[var]]
+        ),
+        
+        Tipo_Avaliacao = as.character(
+          Tipo_Avaliacao
+        )
+      ) %>%
+      
+      dplyr::filter(
+        Tipo_Avaliacao %in% c(
+          "Baseline",
+          "Endline"
+        ),
+        
+        !is.na(Tipo_Avaliacao),
+        
+        !is.na(categoria),
+        
+        stringr::str_squish(categoria) != ""
+      ) %>%
+      
+      dplyr::mutate(
+        categoria = stringr::str_squish(
+          categoria
+        )
+      )
+    
+    
+    # ==========================================================
+    # SEM DADOS
+    # ==========================================================
+    
+    if (nrow(df) == 0) {
+      
+      return(
+        tags$p(
+          style = "
+          margin:0;
+          text-align:justify;
+          color:#555;
+        ",
+          
           "Não existem dados disponíveis para apresentar esta análise."
         )
       )
     }
     
+    
+    # ==========================================================
+    # RESUMO
+    # ==========================================================
+    
     resumo <- df %>%
-      group_by(
+      
+      dplyr::group_by(
         Tipo_Avaliacao,
-        categoria = .data[[var]]
+        categoria
       ) %>%
-      summarise(
-        n = n(),
+      
+      dplyr::summarise(
+        n = dplyr::n(),
         .groups = "drop"
       ) %>%
-      group_by(Tipo_Avaliacao) %>%
-      mutate(
+      
+      dplyr::group_by(
+        Tipo_Avaliacao
+      ) %>%
+      
+      dplyr::mutate(
         perc = n / sum(n) * 100
       ) %>%
-      ungroup()
+      
+      dplyr::ungroup()
+    
+    
+    # ==========================================================
+    # GARANTIR BASELINE E ENDLINE
+    # ==========================================================
     
     comparacao <- resumo %>%
-      select(
+      
+      dplyr::select(
         Tipo_Avaliacao,
         categoria,
         perc
       ) %>%
+      
       tidyr::pivot_wider(
         names_from = Tipo_Avaliacao,
         values_from = perc,
         values_fill = 0
-      ) %>%
-      mutate(
+      )
+    
+    
+    # ==========================================================
+    # GARANTIR QUE AS COLUNAS EXISTEM
+    # ==========================================================
+    
+    if (!"Baseline" %in% names(comparacao)) {
+      comparacao$Baseline <- 0
+    }
+    
+    if (!"Endline" %in% names(comparacao)) {
+      comparacao$Endline <- 0
+    }
+    
+    
+    # ==========================================================
+    # CALCULAR VARIAÇÃO
+    # ==========================================================
+    
+    comparacao <- comparacao %>%
+      dplyr::mutate(
+        Baseline = as.numeric(Baseline),
+        Endline = as.numeric(Endline),
         variacao = Endline - Baseline
       )
     
-    texto_categorias <- lapply(
+    
+    # ==========================================================
+    # CONSTRUIR TEXTO DE CADA CATEGORIA
+    # ==========================================================
+    
+    texto_categorias <- vapply(
+      
       seq_len(nrow(comparacao)),
+      
       function(i) {
         
-        categoria <- comparacao$categoria[i]
-        base <- round(comparacao$Baseline[i], 1)
-        end <- round(comparacao$Endline[i], 1)
-        variacao <- round(comparacao$variacao[i], 1)
+        categoria <- as.character(
+          comparacao$categoria[i]
+        )
         
-        if (variacao > 0) {
+        base <- as.numeric(
+          comparacao$Baseline[i]
+        )
+        
+        end <- as.numeric(
+          comparacao$Endline[i]
+        )
+        
+        variacao <- as.numeric(
+          comparacao$variacao[i]
+        )
+        
+        
+        # ------------------------------------------------------
+        # AUMENTOU
+        # ------------------------------------------------------
+        
+        if (variacao > 0.05) {
           
           paste0(
             categoria,
             " aumentou de ",
-            format(base, decimal.mark = ",", nsmall = 1),
+            format(
+              round(base, 1),
+              decimal.mark = ",",
+              nsmall = 1
+            ),
             "% no Baseline para ",
-            format(end, decimal.mark = ",", nsmall = 1),
+            format(
+              round(end, 1),
+              decimal.mark = ",",
+              nsmall = 1
+            ),
             "% no Endline (+",
-            format(variacao, decimal.mark = ",", nsmall = 1),
+            format(
+              round(variacao, 1),
+              decimal.mark = ",",
+              nsmall = 1
+            ),
             " p.p.)"
           )
           
-        } else if (variacao < 0) {
+          # ------------------------------------------------------
+          # REDUZIU
+          # ------------------------------------------------------
+          
+        } else if (variacao < -0.05) {
           
           paste0(
             categoria,
             " reduziu de ",
-            format(base, decimal.mark = ",", nsmall = 1),
+            format(
+              round(base, 1),
+              decimal.mark = ",",
+              nsmall = 1
+            ),
             "% no Baseline para ",
-            format(end, decimal.mark = ",", nsmall = 1),
+            format(
+              round(end, 1),
+              decimal.mark = ",",
+              nsmall = 1
+            ),
             "% no Endline (",
-            format(variacao, decimal.mark = ",", nsmall = 1),
+            format(
+              round(variacao, 1),
+              decimal.mark = ",",
+              nsmall = 1
+            ),
             " p.p.)"
           )
+          
+          # ------------------------------------------------------
+          # MANTEVE
+          # ------------------------------------------------------
           
         } else {
           
           paste0(
             categoria,
             " manteve-se em ",
-            format(end, decimal.mark = ",", nsmall = 1),
+            format(
+              round(end, 1),
+              decimal.mark = ",",
+              nsmall = 1
+            ),
             "% entre o Baseline e o Endline"
           )
         }
-      }
+      },
+      
+      FUN.VALUE = character(1)
     )
     
-    tags$p(
-      style = "margin:0;text-align:justify;",
+    
+    # ==========================================================
+    # TEXTO FINAL
+    # ==========================================================
+    
+    texto_final <- paste0(
       
-      tags$b(
-        "Faz separação das contas pessoais e do negócio. "
-      ),
+      "<strong>",
+      "Faz separação das contas pessoais e do negócio. ",
+      "</strong>",
       
-      "A comparação entre o Baseline e o Endline permite observar a evolução na separação das contas pessoais e do negócio. ",
+      "A comparação entre o Baseline e o Endline permite ",
+      "observar a evolução na separação das contas pessoais ",
+      "e do negócio. ",
       
       paste(
         texto_categorias,
@@ -9492,6 +9686,24 @@ server <- function(input, output, session) {
       ),
       
       "."
+    )
+    
+    
+    # ==========================================================
+    # RETORNAR HTML
+    # ==========================================================
+    
+    tags$p(
+      
+      style = "
+      margin:0;
+      text-align:justify;
+      line-height:1.6;
+    ",
+      
+      HTML(
+        texto_final
+      )
     )
   })
   
@@ -15444,7 +15656,7 @@ server <- function(input, output, session) {
   
   dados_geral <- reactive({
     
-    df <- PERFIL_PAM_VERDE_C3_2026
+    df <- PERFIL_PAM_VERDE_C4_2026
     
     if (input$filtro_monitoria_geral != "Todos") {
       
@@ -15669,7 +15881,7 @@ server <- function(input, output, session) {
             "text",
             x = 1,
             y = 1,
-            label = "Não existem dados de Concluiu a Formação ou Desistentes",
+            label = "Não existem dados de Na Formação ou Desistentes",
             size = 6,
             fontface = "bold"
           ) +
@@ -15683,7 +15895,7 @@ server <- function(input, output, session) {
     
     resumo <- data.frame(
       Categoria = c(
-        "Concluiu a Formação",
+        "Na Formação",
         "Desistentes"
       ),
       
@@ -15710,7 +15922,7 @@ server <- function(input, output, session) {
     resumo$Categoria <- factor(
       resumo$Categoria,
       levels = c(
-        "Concluiu a Formação",
+        "Na Formação",
         "Desistentes"
       )
     )
@@ -15761,7 +15973,7 @@ server <- function(input, output, session) {
       # Cores
       scale_fill_manual(
         values = c(
-          "Concluiu a Formação" = "#8054A2",
+          "Na Formação" = "#8054A2",
           "Desistentes" = "#69C7BE"
         ),
         drop = FALSE
@@ -15820,6 +16032,235 @@ server <- function(input, output, session) {
       )
   })
   
+  # ===============================================================
+  # LEGENDA AUTOMÁTICA DOS DOIS GRÁFICOS
+  # ===============================================================
+  
+  output$legenda_monitoria_geral <- renderUI({
+    
+    dados <- dados_geral()
+    
+    
+    # =============================================================
+    # 1. TOTAL DE SELECIONADAS
+    # =============================================================
+    
+    total_selecionadas <- nrow(dados)
+    
+    
+    # =============================================================
+    # 2. PADRONIZAR STATUS
+    # =============================================================
+    
+    dados <- dados %>%
+      dplyr::mutate(
+        Status = toupper(
+          stringr::str_squish(
+            trimws(
+              as.character(Status)
+            )
+          )
+        )
+      )
+    
+    
+    # =============================================================
+    # 3. IDENTIFICAR QUEM INICIOU
+    # =============================================================
+    
+    dados_iniciaram <- dados %>%
+      dplyr::filter(
+        Status %in% c(
+          "ACTIVA",
+          "ACTIVAS",
+          "ATIVA",
+          "ATIVAS",
+          "DESISTENTE",
+          "DESISTENTES"
+        )
+      )
+    
+    
+    total_iniciaram <- nrow(
+      dados_iniciaram
+    )
+    
+    
+    # =============================================================
+    # 4. IDENTIFICAR QUEM CONTINUA / ESTÁ NA FORMAÇÃO
+    # =============================================================
+    
+    total_formacao <- dados_iniciaram %>%
+      dplyr::filter(
+        Status %in% c(
+          "ACTIVA",
+          "ACTIVAS",
+          "ATIVA",
+          "ATIVAS"
+        )
+      ) %>%
+      nrow()
+    
+    
+    # =============================================================
+    # 5. IDENTIFICAR DESISTENTES
+    # =============================================================
+    
+    total_desistentes <- dados_iniciaram %>%
+      dplyr::filter(
+        Status %in% c(
+          "DESISTENTE",
+          "DESISTENTES"
+        )
+      ) %>%
+      nrow()
+    
+    
+    # =============================================================
+    # 6. PERCENTAGENS
+    # =============================================================
+    
+    percentual_iniciaram <- ifelse(
+      total_selecionadas > 0,
+      total_iniciaram / total_selecionadas,
+      0
+    )
+    
+    
+    percentual_formacao <- ifelse(
+      total_iniciaram > 0,
+      total_formacao / total_iniciaram,
+      0
+    )
+    
+    
+    percentual_desistentes <- ifelse(
+      total_iniciaram > 0,
+      total_desistentes / total_iniciaram,
+      0
+    )
+    
+    
+    # =============================================================
+    # 7. NOME DA CIDADE
+    # =============================================================
+    
+    cidade <- input$filtro_monitoria_geral
+    
+    if (cidade == "Todos") {
+      
+      texto_cidade <- "nas cidades abrangidas pelo projeto"
+      
+    } else {
+      
+      texto_cidade <- paste0(
+        "em ",
+        cidade
+      )
+    }
+    
+    
+    # =============================================================
+    # 8. CASO NÃO EXISTAM DADOS
+    # =============================================================
+    
+    if (total_selecionadas == 0) {
+      
+      return(
+        div(
+          
+          style = "
+          background-color:#fff3cd;
+          padding:15px 20px;
+          border-radius:8px;
+          margin-bottom:20px;
+          border-left:5px solid #f9a825;
+        ",
+          
+          tags$h5(
+            "Não existem dados disponíveis para os filtros selecionados.",
+            style = "
+            margin:0;
+            font-weight:bold;
+          "
+          )
+        )
+      )
+    }
+    
+    
+    # =============================================================
+    # 9. TEXTO AUTOMÁTICO
+    # =============================================================
+    
+    div(
+      
+      style = "
+      background-color:#f5f3f4;
+      padding:15px 20px;
+      border-radius:8px;
+      margin-bottom:20px;
+      border-left:5px solid #9442d4;
+    ",
+      
+      tags$h5(
+        
+        HTML(
+          paste0(
+            
+            "Os gráficos abaixo apresentam uma visão geral do projeto, ",
+            "evidenciando o percurso das empreendedoras desde a seleção ",
+            "até à situação na formação ",
+            texto_cidade,
+            ". ",
+            
+            "Foram selecionadas ",
+            "<strong>",
+            scales::comma(total_selecionadas),
+            " empreendedoras</strong> (100%). ",
+            
+            "Destas, ",
+            "<strong>",
+            scales::comma(total_iniciaram),
+            " iniciaram a formação</strong> (",
+            scales::percent(
+              percentual_iniciaram,
+              accuracy = 1
+            ),
+            "). ",
+            
+            "Entre as participantes que iniciaram a formação, ",
+            
+            "<strong>",
+            scales::comma(total_formacao),
+            " estão na formação</strong> (",
+            scales::percent(
+              percentual_formacao,
+              accuracy = 1
+            ),
+            "), ",
+            
+            "enquanto ",
+            
+            "<strong>",
+            scales::comma(total_desistentes),
+            " desistiram</strong> (",
+            scales::percent(
+              percentual_desistentes,
+              accuracy = 1
+            ),
+            ")."
+          )
+        ),
+        
+        style = "
+        margin:0;
+        line-height:1.6;
+        color:#333;
+      "
+      )
+    )
+  })
   
   ################### PRESENCAS NAS SESSÕES  
   
@@ -15841,7 +16282,7 @@ server <- function(input, output, session) {
   dados_plot_coletivo <- reactive({
     
     df <- dados_filtrados_coletiva()
-    previsto <- 43
+    previsto <- 53
     
     df <- df %>%
       mutate(across(starts_with("Sessao_"), ~sapply(., function(x) {
@@ -15968,7 +16409,7 @@ server <- function(input, output, session) {
   dados_plot_webinar <- reactive({
     
     df <- dados_filtrados_webinar()
-    previsto <- 43
+    previsto <- 53
     
     # garantir limpeza de listas/colunas complexas
     df <- df %>%
@@ -16172,7 +16613,7 @@ server <- function(input, output, session) {
     
     df <- dados_filtrados_feira()
     
-    previsto <- 43
+    previsto <- 53
     
     
     # ----------------------------------------------------------
@@ -21904,7 +22345,7 @@ server <- function(input, output, session) {
     # ==========================================================
     
     df_conclusao_formacao_pam_verde <-
-      PERFIL_PAM_VERDE_C3_2026 %>%
+      PERFIL_PAM_VERDE_C4_2026 %>%
       
       dplyr::mutate(
         
@@ -22094,14 +22535,12 @@ server <- function(input, output, session) {
     
     formalizacao_n_BL <-
       formalizacao_BL %>%
-      
       dplyr::filter(
-        
-        Negocio_Formalizado ==
+        Negocio_Formalizado %in% c(
+          # "Sim",
           "Iniciei o processo de formalização"
-        
+        )
       ) %>%
-      
       nrow()
     
     
@@ -22143,11 +22582,11 @@ server <- function(input, output, session) {
       
       dplyr::filter(
         
-        Negocio_Formalizado ==
+        Negocio_Formalizado %in% c(
+          # "Sim",
           "Iniciei o processo de formalização"
-        
+        )
       ) %>%
-      
       nrow()
     
     
@@ -23479,20 +23918,20 @@ server <- function(input, output, session) {
         
         ID_Indicador = c(
           
-          NA_character_,
-          NA_character_,
+          "iVM1000",
+          "iVM1000",
           
           "iPAM_INT1.1",
           "iPAM_RI.2.4",
-          NA_character_,
+          "OS1.1",
           "iPAM_RI.2.6",
           "iPAM_RI.5.1",
-          NA_character_,
-          NA_character_,
+          "iPAM_RI.3.1",
+          "iPAM_RI.2.2",
           "iPAM_RI.4.1",
-          NA_character_,
+          "iPAM_RI.2.2",
           
-          NA_character_,
+          "iPAM_RI.4.2",
           
           "iPAM_RI.1.1",
           "iPAM_RI.1.2",
@@ -23522,11 +23961,11 @@ server <- function(input, output, session) {
           
           "% de empreendedoras que definem um salário mensal para si mesmas",
           
-          "% de empreendedoras que tomam sozinhas as principais decisões",
+          "% de empreendedoras que tomam sozinhas as principais decisões no negócio",
           
           "% de empreendedoras confiantes na negociação com clientes",
           
-          "% de empreendedoras que nos últimos 3 meses negociaram e conseguiram acordo favorável",
+          "% participantes com maior poder de negociação em oportunidades económicas",
           
           "% de empreendedoras que sabem utilizar ferramentas de IA",
           
